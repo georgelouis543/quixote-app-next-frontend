@@ -1,3 +1,7 @@
+'use client'
+
+import { useRouter } from "next/navigation"
+import { CredentialResponse, GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import Image from "next/image";
 import { 
   Card, 
@@ -6,34 +10,109 @@ import {
   CardTitle 
 } from "@/components/ui/card";
 
+import { useLoginMutation } from "@/app/features/auth/authApiSlice";
+import { setCredentials } from "@/app/features/auth/authSlice";
+import { useDispatch } from "react-redux";
+import { useRef, useState } from "react";
+
+
 export default function LoginPage() {
+  const CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!
+
+  const errRef = useRef<HTMLParagraphElement>(null);
+  const [errMsg, setErrMsg] = useState('')
+  
+  const router = useRouter()
+  const dispatch = useDispatch()
+
+  const [login, { isLoading }] = useLoginMutation()
+
+  async function handleLogin(googleData: CredentialResponse): Promise<void> {
+    if (!googleData.credential) {
+      console.error("No credential received from Google");
+      setErrMsg("No credential received from Google")
+      errRef.current?.focus()
+      return
+    }
+
+    try {
+      const result = await login({ token: googleData.credential }).unwrap()
+      const { access_token } = result
+      console.log("Access Token:", access_token)
+      dispatch(setCredentials({ access_token }))
+      router.push("/home")
+    } catch (error: any) {
+      console.error("Login failed", error)
+      if (!error?.status) {
+        setErrMsg("No server response")
+      } else if (error.status === 401) {
+        setErrMsg("Unauthorized")
+      } else if (error.status === 403) {
+        setErrMsg("Only Meltwater users can access this app")
+      } else {
+        setErrMsg(error.data?.message || "Login failed")
+      }
+      errRef.current?.focus()
+    }
+  }
+
+  function handleFailure(): void {
+    setErrMsg("Google login was cancelled or failed")
+    errRef.current?.focus()
+  }
+
+  const errClass = errMsg ? "text-red-600 text-[15px] mb-4 mt-5 font-bold" : "sr-only"
+
+  // Add custom loading animation later
+  if (isLoading) return <p className="text-center mt-10">Loading...</p> 
+
   return (
-    <Card className="w-[40%] border-2 border-black mt-20">
+    <div className="flex flex-col items-center w-full">
+      <Card className="w-[40%] border-2 border-black mt-20">
 
-      <CardHeader className="flex flex-col items-center">
+        <CardHeader className="flex flex-col items-center">
 
-        <Image
-            src="/images/quixote-logo.svg"
-            alt="App Logo"
-            width={500}
-            height={500}
-            className="mb-10"
-        />
+          <Image
+              src="/images/quixote-logo.svg"
+              alt="App Logo"
+              width={500}
+              height={500}
+              className="mb-10"
+          />
 
-        <CardTitle className="text-xl text-center border-b-2 border-black p-1">
-          Continue with your meltwater account
-        </CardTitle>
+          <CardTitle className="text-xl text-center border-b-2 border-black p-1">
+            Continue with your meltwater account
+          </CardTitle>
 
-      </CardHeader>
+        </CardHeader>
 
-      <CardContent className="flex justify-center items-center w-full p-3">
+        <CardContent className="flex justify-center items-center w-full p-3">
 
-        <div className="border border-black px-3 py-2">
-          Add Google Button here
-        </div>
+          <div className="px-3 py-2">
 
-      </CardContent>
+            <GoogleOAuthProvider clientId={CLIENT_ID}>
+                <GoogleLogin
+                  onSuccess={handleLogin}
+                  onError={handleFailure} 
+                  theme="filled_black" 
+                  shape="rectangular"
+                  width="350"
+                  size="large"
+                  ux_mode="popup"  
+                  text = "continue_with"               
+                />            
+            </GoogleOAuthProvider> 
 
-    </Card>
+          </div>
+
+        </CardContent>
+
+      </Card>
+
+      <p ref={errRef} className={errClass} aria-live="assertive">
+        {errMsg}
+      </p>
+
+    </div>
   )
 }
