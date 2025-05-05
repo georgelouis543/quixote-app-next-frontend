@@ -1,5 +1,6 @@
 import { HomeIcon, Newspaper, Sheet } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image'
 
 import { NavButton } from '@/components/NavButton';
 
@@ -10,11 +11,23 @@ export function Header() {
             <div className="flex h-8 items-center justify-between w-full">
 
                 <div className="flex items-center gap-2">
+                    
                     <Link href="/home" className="flex justify-center items-center gap-2 ml-0" title="Home">
-                        <h1 className="hidden sm:block text-xl font-bold m-0 mt-[1px]">
-                            Quixote App
-                        </h1>
+                        
+                        <div className="hidden sm:block text-xl font-bold m-0 mt-[1px]">
+                            
+                            <Image
+                                src="/images/quixote-header.svg"
+                                alt="App Logo"
+                                width={200}
+                                height={50}
+                                className="mb-10 mt-10"
+                            />
+                            
+                        </div>
+
                     </Link>
+
                 </div>
 
                 <div className="flex items-center">
