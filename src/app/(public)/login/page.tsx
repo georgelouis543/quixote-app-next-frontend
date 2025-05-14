@@ -10,10 +10,11 @@ import {
   CardTitle 
 } from "@/components/ui/card";
 
-import { useLoginMutation } from "@/app/features/auth/authApiSlice";
-import { setCredentials } from "@/app/features/auth/authSlice";
+import { useLoginMutation } from "@/features/auth/authApiSlice";
+import { setCredentials } from "@/features/auth/authSlice";
 import { useDispatch } from "react-redux";
 import { useRef, useState } from "react";
+import usePersist from "@/hooks/usePersist";
 
 
 export default function LoginPage() {
@@ -21,6 +22,7 @@ export default function LoginPage() {
 
   const errRef = useRef<HTMLParagraphElement>(null);
   const [errMsg, setErrMsg] = useState('')
+  const [, setPersist] = usePersist()
   
   const router = useRouter()
   const dispatch = useDispatch()
@@ -40,6 +42,7 @@ export default function LoginPage() {
       const { access_token } = result
       console.log("Access Token:", access_token)
       dispatch(setCredentials({ access_token }))
+      setPersist(true)
       router.push("/home")
     } catch (error: any) {
       console.error("Login failed", error)
@@ -68,7 +71,7 @@ export default function LoginPage() {
 
   return (
     <div className="flex flex-col items-center w-full">
-      <Card className="w-[40%] border-2 border-black mt-20">
+      <Card className="w-full max-w-[450px] border-2 border-black mt-20">
 
         <CardHeader className="flex flex-col items-center">
 

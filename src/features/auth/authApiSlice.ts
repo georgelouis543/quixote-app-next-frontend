@@ -1,5 +1,5 @@
 import { apiSlice } from "@/app/api/apiSlice";
-import { logOut } from "./authSlice";
+import { logOut, setCredentials } from "./authSlice";
 
 interface AuthTokenResponse {
     access_token: string,
@@ -29,9 +29,12 @@ export const authApiSlice = apiSlice.injectEndpoints({
             }),
             async onQueryStarted(_, { dispatch, queryFulfilled }) {
                 try {
-                    await queryFulfilled
+                    const { data } = await queryFulfilled
+                    console.log(data)
                     dispatch(logOut())
-                    dispatch(apiSlice.util.resetApiState())
+                    setTimeout(() => {
+                        dispatch(apiSlice.util.resetApiState())
+                    }, 1000)
                 } catch (err) {
                     console.error(err)
                 }
@@ -43,12 +46,22 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 url: '/auth/refresh',
                 method: 'GET',
             }),
+            async onQueryStarted(_, { dispatch, queryFulfilled }) {
+                try {
+                    const { data } = await queryFulfilled
+                    console.log(data)
+                    const { access_token } = data
+                    dispatch(setCredentials({ access_token }))
+                } catch (err) {
+                    console.log(err)
+                }
+            }
         }),
     }),
 })
   
-  export const {
+export const {
     useLoginMutation,
     useSendLogoutMutation,
     useRefreshMutation,
-  } = authApiSlice
+} = authApiSlice
