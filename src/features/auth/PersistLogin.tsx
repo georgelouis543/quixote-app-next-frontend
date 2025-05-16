@@ -4,14 +4,13 @@ import usePersist from "@/hooks/usePersist"
 import { useSelector } from "react-redux"
 import { selectCurrentToken } from "./authSlice"
 import { useEffect, useRef, useState } from "react"
-import { useRouter } from "next/navigation"
 import { useRefreshMutation } from "./authApiSlice"
+import Link from "next/link"
 
 export default function PersistLogin({ children }: { children: React.ReactNode } ) {
     const [persist] = usePersist()
     const token = useSelector(selectCurrentToken)
     const effectRan = useRef(false)
-    const router = useRouter()
 
     const [trueSuccess, setTrueSuccess] = useState(false)
 
@@ -70,12 +69,12 @@ export default function PersistLogin({ children }: { children: React.ReactNode }
                     {(error as any)?.data?.message || "Session expired"}
                 </h2>
                 
-                <button
-                    onClick={() => router.push("/login")}
+                <Link
+                    href="/login"
                     className="underline text-blue-800"
                 >
                     Please login again
-                </button>
+                </Link>
           </div>
         )
     } else if ((isSuccess && trueSuccess) || (token && isUninitialized)) {
