@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit"
 import { setupListeners } from "@reduxjs/toolkit/query"
 import { apiSlice } from "./api/apiSlice"
 import authReducer from '../features/auth/authSlice'
+import { platformAnalyticsApiSlice } from "@/features/newsletter_analytics/platformAnalyticsApiSlice"
 
 export const store = configureStore({
     reducer: {
@@ -9,7 +10,16 @@ export const store = configureStore({
         auth: authReducer,
     },
     middleware: getDefaultMiddleware =>
-        getDefaultMiddleware().concat(apiSlice.middleware),
+        getDefaultMiddleware({
+            serializableCheck: {
+                ignoredActions: [
+                    `${platformAnalyticsApiSlice.reducerPath}/executeQuery/fulfilled`,
+                    `${platformAnalyticsApiSlice.reducerPath}/executeQuery/pending`,
+                    `${platformAnalyticsApiSlice.reducerPath}/executeQuery/rejected`,
+                ],
+                ignoredPaths: [`${platformAnalyticsApiSlice.reducerPath}.queries`],
+            },
+        }).concat(apiSlice.middleware),
     devTools: true
 })
 
