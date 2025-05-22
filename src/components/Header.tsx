@@ -1,9 +1,16 @@
-import { HomeIcon, Newspaper, Sheet, LogOut } from 'lucide-react';
+import { 
+    HomeIcon, 
+    Newspaper, 
+    Sheet, 
+    LogOut, 
+    ShieldUserIcon 
+} from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image'
 
 import { NavButton } from '@/components/NavButton';
 import LogoutButton from './LogoutButton';
+import { AdminButton } from './AdminButton';
 
 export function Header() {
     return (
@@ -49,6 +56,12 @@ export function Header() {
                         href="/newsletter-analytics/sendgrid-analytics" 
                         label="Export Sendgrid Analytics" 
                         icon={Sheet} 
+                    />
+
+                    <AdminButton 
+                        href="/admin/view-users" 
+                        label="admin" 
+                        icon={ShieldUserIcon} 
                     />
 
                     <LogoutButton
