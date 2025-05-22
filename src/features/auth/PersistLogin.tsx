@@ -66,7 +66,7 @@ export default function PersistLogin({ children }: { children: React.ReactNode }
             <div className="flex flex-col items-center justify-center w-full h-screen text-center px-2">
                 
                 <h2 className="text-3xl font-bold mb-4 text-red-600">
-                    {(error as any)?.data?.message || "Session expired"}
+                    {(error as any)?.data?.detail || "Session expired"}
                 </h2>
                 
                 <Link

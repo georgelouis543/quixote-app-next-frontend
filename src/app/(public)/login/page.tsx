@@ -53,7 +53,7 @@ export default function LoginPage() {
       } else if (error.status === 403) {
         setErrMsg("Only Meltwater users can access this app")
       } else {
-        setErrMsg(error.data?.message || "Login failed")
+        setErrMsg(error.data?.detail || "Login failed")
       }
       errRef.current?.focus()
     }

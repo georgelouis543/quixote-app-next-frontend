@@ -43,7 +43,7 @@ const baseQueryWithReauth: BaseQueryFn<
                 result = await baseQuery(args, api, extraOptions)
             } else {
             if (refreshResult?.error?.status === 403) {
-                (refreshResult.error.data as { message?: string }).message = "Your login has expired."
+                (refreshResult.error.data as { detail?: string }).detail = "Your login has expired."
             }
             return refreshResult
             }
