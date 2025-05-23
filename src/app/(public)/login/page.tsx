@@ -44,19 +44,28 @@ export default function LoginPage() {
       dispatch(setCredentials({ access_token }))
       setPersist(true)
       router.push("/home")
-    } catch (error: any) {
-      console.error("Login failed", error)
-      if (!error?.status) {
-        setErrMsg("No server response")
-      } else if (error.status === 401) {
-        setErrMsg("Unauthorized")
-      } else if (error.status === 403) {
-        setErrMsg("Only Meltwater users can access this app")
-      } else {
-        setErrMsg(error.data?.detail || "Login failed")
+    } catch (error: unknown) {
+        console.error("Login failed:", error);
+      
+        if (typeof error === "object" && error !== null && "status" in error) {
+          const err = error as { status?: number; data?: { detail?: string } };
+      
+          if (!err.status) {
+            setErrMsg("No server response");
+          } else if (err.status === 401) {
+            setErrMsg("Unauthorized");
+          } else if (err.status === 403) {
+            setErrMsg("Only Meltwater users can access this app");
+          } else {
+            setErrMsg(err.data?.detail || "Login failed");
+          }
+        } else {
+          setErrMsg("An unknown error occurred");
+        }
+      
+        errRef.current?.focus();
       }
-      errRef.current?.focus()
-    }
+    
   }
 
   function handleFailure(): void {

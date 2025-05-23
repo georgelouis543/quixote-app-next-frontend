@@ -56,5 +56,5 @@ const baseQueryWithReauth: BaseQueryFn<
 export const apiSlice = createApi({
     baseQuery: baseQueryWithReauth,
     tagTypes: ['Newsletter', 'User'],
-    endpoints: builder => ({})
+    endpoints: () => ({}),
 })
