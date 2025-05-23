@@ -16,7 +16,6 @@ export default function ViewUsersPage() {
         refetchOnMountOrArgChange: true
     })
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     let content
 
     if (isLoading) {
@@ -44,8 +43,7 @@ export default function ViewUsersPage() {
     return (
         <div className="p-4">
             <h1 className="text-2xl font-bold mb-4">All Users</h1>
-            {/* {content} */}
-            Add Table tomorrow!
+            {content}
         </div>
     )
 }
