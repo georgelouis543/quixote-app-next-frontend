@@ -4,12 +4,17 @@ import { Header } from "@/components/Header"
 import { ROLES } from "@/config/roles"
 import PersistLogin from "@/features/auth/PersistLogin"
 import RequireAuth from "@/features/auth/RequireAuth"
+import useMounted from "@/hooks/useMounted"
 
 export default function RSLayout({
     children,
 }: {
     children: React.ReactNode
 }) {
+  const mounted = useMounted()
+
+  if (!mounted) return null // to fix hydration mismatch
+
   return (
     <PersistLogin>
       <RequireAuth allowedRoles={[ROLES.admin, ROLES.user]}>

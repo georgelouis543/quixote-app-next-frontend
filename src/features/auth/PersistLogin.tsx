@@ -49,16 +49,19 @@ export default function PersistLogin({ children }: { children: React.ReactNode }
     if (!persist) {
         console.log('no persist')
         return (
-        <>
-            {children}
-        </>
+            // <>
+            //     {children} // Use this when Remember me flag is added in future
+            // </>
+            <p>
+                Setting Session...
+            </p>
         )
     } else if (isLoading) {
         console.log('loading')
         return (
-        <p>
-            Loading...
-        </p>
+            <p>
+                Loading...
+            </p>
         )
     } else if (isError) {
         console.log('error')
