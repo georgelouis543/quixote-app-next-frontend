@@ -52,14 +52,14 @@ export default function PersistLogin({ children }: { children: React.ReactNode }
             // <>
             //     {children} // Use this when Remember me flag is added in future
             // </>
-            <p>
-                Setting Session...
+            <p className="flex flex-col items-center justify-center w-full h-screen text-center px-2">
+                Checking Session...
             </p>
         )
     } else if (isLoading) {
         console.log('loading')
         return (
-            <p>
+            <p className="flex flex-col items-center justify-center w-full h-screen text-center px-2">
                 Loading...
             </p>
         )
