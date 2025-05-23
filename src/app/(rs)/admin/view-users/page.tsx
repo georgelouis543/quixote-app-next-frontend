@@ -16,6 +16,7 @@ export default function ViewUsersPage() {
         refetchOnMountOrArgChange: true
     })
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     let content
 
     if (isLoading) {
