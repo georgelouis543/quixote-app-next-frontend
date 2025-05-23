@@ -20,7 +20,7 @@ const RequireAuth = ({
     ) : (
         <div className="flex flex-col items-center justify-center w-full h-screen text-center px-2">
             <h2 className="text-3xl font-bold mb-4 text-black">
-                Uh-oh! 🚫 You're not supposed to be here
+                Uh-oh! 🚫 You&apos;re not supposed to be here
             </h2>
             <Link
                 href="/login"
