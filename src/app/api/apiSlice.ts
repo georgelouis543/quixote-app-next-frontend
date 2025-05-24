@@ -8,8 +8,10 @@ import {
 import type { RootState } from '@/app/store'
 import { setCredentials } from '@/features/auth/authSlice'
 
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL!
+
 const baseQuery = fetchBaseQuery({
-    baseUrl: 'http://localhost:8000',
+    baseUrl: BACKEND_URL,
     credentials: 'include',
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).auth.token
