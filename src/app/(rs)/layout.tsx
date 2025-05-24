@@ -1,6 +1,6 @@
 'use client'
 
-import { Header } from "@/components/Header"
+import { Header } from "@/components/header/Header"
 import { ROLES } from "@/config/roles"
 import PersistLogin from "@/features/auth/PersistLogin"
 import RequireAuth from "@/features/auth/RequireAuth"

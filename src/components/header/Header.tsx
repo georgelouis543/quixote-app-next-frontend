@@ -8,7 +8,7 @@ import {
 import Link from 'next/link';
 import Image from 'next/image'
 
-import { NavButton } from '@/components/NavButton';
+import { NavButton } from '@/components/header/NavButton';
 import LogoutButton from './LogoutButton';
 import { AdminButton } from './AdminButton';
 

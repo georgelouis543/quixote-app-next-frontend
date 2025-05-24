@@ -1,5 +1,7 @@
 'use client'
 
+import { Table, TableBody, TableCaption, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import UserRow from "@/components/users/UserRow"
 import { useGetUsersQuery } from "@/features/users/usersApiSlice"
 
 export default function ViewUsersPage() {
@@ -24,25 +26,34 @@ export default function ViewUsersPage() {
         content = <p className="text-red-600">{JSON.stringify(error)}</p>
     } else if (isSuccess && users) {
         content = (
-            <ul className="space-y-2">
-                {users.ids.map(id => {
-                    const user = users.entities[id]
-                    return (
-                        <li key={id} className="border p-2 rounded shadow">
-                            <p><strong>ID:</strong> {user?.id}</p>
-                            <p><strong>Username:</strong> {user?.user_name}</p>
-                            <p><strong>Email:</strong> {user?.user_email}</p>
-                            <p><strong>Role:</strong> {user?.role}</p>
-                        </li>
-                    )
-                })}
-            </ul>
+            <Table className="shadow-md">
+                <TableCaption className="font-bold">
+                    List of all users
+                </TableCaption>
+                <TableHeader className="font-bold text-l shadow-xl">
+                    <TableRow>
+                        <TableHead>ID</TableHead>
+                        <TableHead>Email</TableHead>
+                        <TableHead>Username</TableHead>
+                        <TableHead>Role</TableHead>
+                        <TableHead>Edit</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {users.ids.map((userId) => (
+                        <UserRow 
+                            key={userId} 
+                            userId={userId as number} 
+                        />
+                        )
+                    )}
+                </TableBody>
+            </Table>
         )
     }
 
     return (
-        <div className="p-4">
-            <h1 className="text-2xl font-bold mb-4">All Users</h1>
+        <div className="p-4 mt-10">
             {content}
         </div>
     )
