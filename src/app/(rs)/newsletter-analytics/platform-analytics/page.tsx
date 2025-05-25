@@ -24,11 +24,13 @@ import { Input } from "@/components/ui/input"
 import { useLazyDownloadPlatformAnalyticsQuery } from "@/features/newsletter_analytics/platformAnalyticsApiSlice"
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "sonner"
+import { Checkbox } from "@/components/ui/checkbox"
  
 const formSchema = z.object({
     newsletter_id: z.string().min(5, "Newsletter ID is required"),
     auth_token: z.string().min(10, "Auth token is required"),
     date_range: z.enum(["7d", "1m", "3m", "6m"]),
+    is_new_version: z.boolean().optional().default(false),
   })
 
 export default function NlPlatformAnalytics() {
@@ -40,6 +42,7 @@ export default function NlPlatformAnalytics() {
           date_range: "7d",
           newsletter_id: "",
           auth_token: "",
+          is_new_version: false,
         },
       })
      
@@ -93,13 +96,30 @@ export default function NlPlatformAnalytics() {
                         <FormLabel>Auth Token</FormLabel>
                         <FormControl>
                             <Textarea
-                            placeholder="Paste your auth token"
-                            className="resize-y min-h-[100px]"
-                            {...field}
+                                placeholder="Paste your auth token"
+                                className="resize-y min-h-[100px]"
+                                {...field}
                             />
                         </FormControl>
                         <FormMessage />
                     </FormItem>
+                    )}
+                />
+
+                <FormField
+                    control={form.control}
+                    name="is_new_version"
+                    render={({ field }) => (
+                        <FormItem className="flex flex-row">
+                        <FormControl>
+                            <Checkbox
+                                className="shadow-md border border-black"
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                            />
+                        </FormControl>
+                        <FormLabel className="mb-0">Is New Version</FormLabel>
+                        </FormItem>
                     )}
                 />
 

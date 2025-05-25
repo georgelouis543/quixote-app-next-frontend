@@ -6,10 +6,11 @@ export const platformAnalyticsApiSlice = apiSlice.injectEndpoints({
             newsletter_id: string
             auth_token: string 
             date_range: string
+            is_new_version: boolean
         }>
         ({
-            async queryFn({ newsletter_id, auth_token, date_range }, _queryApi, _extraOptions, fetchWithBQ) {
-                const url = `/newsletter-analytics/get-platform-analytics?newsletter_id=${newsletter_id}&auth_token=${auth_token}&date_range=${date_range}`
+            async queryFn({ newsletter_id, auth_token, date_range, is_new_version }, _queryApi, _extraOptions, fetchWithBQ) {
+                const url = `/newsletter-analytics/get-platform-analytics?newsletter_id=${newsletter_id}&auth_token=${auth_token}&date_range=${date_range}&is_new_version=${is_new_version}`
         
                 const response = await fetchWithBQ({
                   url,
