@@ -30,7 +30,7 @@ const formSchema = z.object({
     newsletter_id: z.string().min(5, "Newsletter ID is required"),
     auth_token: z.string().min(10, "Auth token is required"),
     date_range: z.enum(["7d", "1m", "3m", "6m"]),
-    is_new_version: z.boolean().optional().default(false),
+    is_new_version: z.boolean().default(false),
   })
 
 export default function NlPlatformAnalytics() {
