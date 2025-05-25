@@ -1,11 +1,6 @@
-import { Button } from "@/components/ui/button";
+import { redirect } from "next/navigation";
 
 
 export default function Home() {
-  return (
-    <div>
-      <p className="text-2xl font-bold">Welcome to Quixote App</p>
-      <Button>Login</Button>
-    </div>
-  );
+  redirect('/home')
 }
