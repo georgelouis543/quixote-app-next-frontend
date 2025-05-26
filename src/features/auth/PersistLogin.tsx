@@ -52,9 +52,18 @@ export default function PersistLogin({ children }: { children: React.ReactNode }
             // <>
             //     {children} // Use this when Remember me flag is added in future
             // </>
-            <p className="flex flex-col items-center justify-center w-full h-screen text-center px-2">
-                Checking Session...
-            </p>
+            <div className="flex flex-col items-center justify-center w-full h-screen text-center px-2">
+                <h2 className="text-3xl font-bold mb-4 text-red-600">
+                    Not Authenticated
+                </h2>
+                <Link
+                    href="/login"
+                    className="underline text-blue-800"
+                >
+                    Please login to continue using this app
+                </Link>
+            </div>
+            
         )
     } else if (isLoading) {
         console.log('loading')
@@ -79,7 +88,7 @@ export default function PersistLogin({ children }: { children: React.ReactNode }
                 >
                     Please login again
                 </Link>
-          </div>
+            </div>
         )
     } else if ((isSuccess && trueSuccess) || (token && isUninitialized)) {
         return (
