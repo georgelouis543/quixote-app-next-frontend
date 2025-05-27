@@ -39,12 +39,23 @@ export const usersApiSlice = apiSlice.injectEndpoints({
             ]
           : [{ type: 'User' as const, id: 'LIST' }],
     }),
+    addNewUser: builder.mutation<User, Partial<User>>({
+      query: (initialUserData) => ({
+        url: '/admin/add-user',
+        method: 'POST',
+        body: {
+          ...initialUserData,
+        },
+      }),
+      invalidatesTags: [{ type: 'User', id: "LIST" }],
+    }),
+    // add other endpoints here
   }),
 });
 
 export const {
     useGetUsersQuery,
-    // useAddNewUserMutation,
+    useAddNewUserMutation,
     // useUpdateUserMutation,
     // useDeleteUserMutation,
 } = usersApiSlice

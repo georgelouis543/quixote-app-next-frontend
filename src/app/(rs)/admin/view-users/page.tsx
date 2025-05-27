@@ -1,10 +1,14 @@
 'use client'
 
+import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCaption, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import UserRow from "@/components/users/UserRow"
 import { useGetUsersQuery } from "@/features/users/usersApiSlice"
+import { Loader, UserPlus } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 export default function ViewUsersPage() {
+    const router = useRouter()
 
     const {
         data: users,
@@ -21,7 +25,12 @@ export default function ViewUsersPage() {
     let content
 
     if (isLoading) {
-        content = <p>Loading...</p>
+        content = (
+            <div className="flex flex-col items-center space-y-2">
+                <Loader className="h-10 w-10 animate-spin text-gray-600" />
+                <p className="text-gray-500 text-sm">Loading users...</p>
+            </div>
+        )
     } else if (isError) {
         content = <p className="text-red-600">{JSON.stringify(error)}</p>
     } else if (isSuccess && users) {
@@ -53,8 +62,16 @@ export default function ViewUsersPage() {
     }
 
     return (
-        <div className="p-4 mt-10">
-            {content}
+        <div className="p-4 mt-10 flex flex-col">
+            <Button 
+                onClick={() => router.push('/admin/add-user')}
+                className="w-[150px] rounded-none mb-5 bg-white border border-gray-300 text-black shadow-md hover:bg-gray-100">
+                <UserPlus />
+                Add New User
+            </Button>
+            <div>
+                {content}
+            </div>
         </div>
     )
 }
