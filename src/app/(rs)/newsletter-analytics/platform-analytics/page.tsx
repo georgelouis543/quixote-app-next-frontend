@@ -25,11 +25,12 @@ import { useLazyDownloadPlatformAnalyticsQuery } from "@/features/newsletter_ana
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "sonner"
 import { Checkbox } from "@/components/ui/checkbox"
+import { Loader } from "lucide-react"
  
 const formSchema = z.object({
     newsletter_id: z.string().min(5, "Newsletter ID is required"),
     auth_token: z.string().min(10, "Auth token is required"),
-    date_range: z.enum(["7d", "1m", "3m", "6m"]),
+    date_range: z.enum(["7d", "1m", "3m", "6m", "allTime"]),
     is_new_version: z.boolean(),
   })
 
@@ -140,6 +141,7 @@ export default function NlPlatformAnalytics() {
                             <SelectItem value="1m">Last 1 month</SelectItem>
                             <SelectItem value="3m">Last 3 months</SelectItem>
                             <SelectItem value="6m">Last 6 months</SelectItem>
+                            <SelectItem value="allTime">All Time</SelectItem>
                         </SelectContent>
                         </Select>
                         <FormMessage />
@@ -147,8 +149,12 @@ export default function NlPlatformAnalytics() {
                     )}
                 />
 
-                <Button type="submit" disabled={isFetching}>
-                    {isFetching ? "Downloading..." : "Download Analytics"}
+                <Button 
+                    type="submit" 
+                    disabled={isFetching}
+                    className="w-[150px]"
+                >
+                    {isFetching ? <Loader /> : "Download Analytics"}
                 </Button>
                 </form>
             </Form>

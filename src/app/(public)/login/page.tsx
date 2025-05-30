@@ -1,7 +1,11 @@
 'use client'
 
 import { useRouter } from "next/navigation"
-import { CredentialResponse, GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
+import { 
+  CredentialResponse, 
+  GoogleLogin, 
+  GoogleOAuthProvider 
+} from "@react-oauth/google";
 import Image from "next/image";
 import { 
   Card, 
@@ -25,8 +29,8 @@ export default function LoginPage() {
   const [, setPersist] = usePersist()
   
   const router = useRouter()
+  
   const dispatch = useDispatch()
-
   const [login, { isLoading }] = useLoginMutation()
 
   async function handleLogin(googleData: CredentialResponse): Promise<void> {
